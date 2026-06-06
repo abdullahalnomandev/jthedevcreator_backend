@@ -1,0 +1,124 @@
+services:
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    env_file:
+      - .env 
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_ADMINUSERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_ADMINPASSWORD}
+      - MONGO_INITDB_DATABASE=${DATABASE_NAME}
+    volumes:
+      - shared-data:/shared
+    ports:
+      - "${MONGODB_PORT}:27017"
+    networks:
+      - server-net
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'       # half CPU core
+          memory: 512M      # 512 MB RAM
+        reservations:
+          cpus: '0.25'      # minimum CPU reserved
+          memory: 256M      # minimum memory reserved
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./Docker/Dockerfile.nginx
+    ports:
+      - "80:80"
+    env_file:
+      - .env
+    depends_on:
+      - python
+      - application
+      - application2
+      - application3
+    networks:
+      - server-net
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M 
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+  application:
+    build:
+      context: .
+      dockerfile: ./Docker/Dockerfile
+    container_name: application
+    hostname: application
+    env_file:
+      - .env
+    volumes:
+      - shared-data:/shared
+    networks:
+      - server-net
+    depends_on:
+      - mongo
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M   
+        reservations:
+          cpus: '0.25'  
+          memory: 256M 
+
+  application2:
+    build:
+      context: .
+      dockerfile: ./Docker/Dockerfile
+    container_name: application2
+    hostname: application2
+    env_file:
+      - .env
+    volumes:
+      - shared-data:/shared
+    networks:
+      - server-net
+    depends_on:
+      - mongo
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M   
+        reservations:
+          cpus: '0.25'  
+          memory: 256M 
+
+  application3:
+    build:
+      context: .
+      dockerfile: ./Docker/Dockerfile
+    container_name: application3
+    hostname: application3
+    env_file:
+      - .env
+    volumes:
+      - shared-data:/shared
+    networks:
+      - server-net
+    depends_on:
+      - mongo
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5' 
+          memory: 512M
+        reservations:
+          cpus: '0.25' 
+          memory: 256M 
+
+networks:
+  server-net:
+
+volumes:
+  shared-data:
