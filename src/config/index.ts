@@ -1,7 +1,13 @@
 import dotenv from 'dotenv';
 import path from 'path';
+
+// Load environment variables from .env file
 dotenv.config({ path: path.join(process.cwd(), '.env') });
 
+/**
+ * Application configuration object
+ * Loads all environment variables and provides type-safe access
+ */
 export default {
   ip_address: process.env.IP_ADDRESS,
   database_port: process.env.MONGODB_PORT,

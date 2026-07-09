@@ -12,6 +12,10 @@ import { PaymentRouter } from '../app/modules/payments/pyment.route';
 
 const router = express.Router();
 
+/**
+ * Array of API route configurations
+ * Each object contains path prefix and corresponding route handler
+ */
 const apiRoutes = [
   {
     path: '/user',
@@ -55,6 +59,7 @@ const apiRoutes = [
   }
 ];
 
+// Mount all API routes
 apiRoutes.forEach(route => router.use(route.path, route.route));
 
 export default router;

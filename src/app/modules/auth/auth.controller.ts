@@ -5,6 +5,9 @@ import sendResponse from '../../../shared/sendResponse';
 import { AuthService } from './auth.service';
 import { getSingleFilePath } from '../../../shared/getFilePath';
 
+/**
+ * Verify user email with OTP
+ */
 const verifyEmail = catchAsync(async (req: Request, res: Response) => {
   const { ...verifyData } = req.body;
   const result = await AuthService.verifyEmailToDB(verifyData);
@@ -17,6 +20,9 @@ const verifyEmail = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+/**
+ * Authenticate user and issue access/refresh tokens
+ */
 const loginUser = catchAsync(async (req: Request, res: Response) => {
   const { ...loginData } = req.body;
   const result = await AuthService.loginUserFromDB(loginData);
@@ -29,6 +35,9 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+/**
+ * Refresh access token using valid refresh token
+ */
 const refreshAccesstoken = catchAsync(async (req: Request, res: Response) => {
   const { ...loginData } = req.body;
   const result = await AuthService.refreshToken(loginData);
@@ -41,6 +50,9 @@ const refreshAccesstoken = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+/**
+ * Send OTP to user's email for password reset
+ */
 const forgetPassword = catchAsync(async (req: Request, res: Response) => {
   const email = req.body.email;
   
@@ -55,6 +67,9 @@ const forgetPassword = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+/**
+ * Reset user password using OTP
+ */
 const resetPassword = catchAsync(async (req: Request, res: Response) => {
   const { ...resetData } = req.body;
   const result = await AuthService.resetPasswordToDB(resetData);
@@ -67,6 +82,9 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+/**
+ * Change password for authenticated user
+ */
 const changePassword = catchAsync(async (req: Request, res: Response) => {
   const user = req.user;
   const { ...passwordData } = req.body;
@@ -79,6 +97,9 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+/**
+ * Perform face verification using two uploaded images
+ */
 const faceVerification = catchAsync(async (req: Request, res: Response) => {
   const user = req.user;
   const image1 = getSingleFilePath(req.files,"image1")

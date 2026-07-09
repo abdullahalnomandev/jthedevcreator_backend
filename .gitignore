@@ -54,7 +54,7 @@ pids/
 *.pm2.log
 
 # Static data
-# /uploads
+/uploads
 /data
 
 # __pycache__
