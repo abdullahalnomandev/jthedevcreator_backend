@@ -12,7 +12,7 @@ const router = Router();
 router
     .route("/connected-account")
     .post(
-        auth( USER_ROLES.ADMIN, USER_ROLES.USER ),
+        auth(USER_ROLES.ADMIN, USER_ROLES.USER),
         PaymentController.createConnectionAccount
     )
 
@@ -31,8 +31,8 @@ router
 router
     .route("/deposit")
     .post(
-        auth( USER_ROLES.ADMIN, USER_ROLES.USER ),
-        validateRequest( PaymentValidation.createDepositZodSchema ),
+        auth(USER_ROLES.ADMIN, USER_ROLES.USER),
+        validateRequest(PaymentValidation.createDepositZodSchema),
         PaymentController.createCheckoutSession
     )
 
@@ -52,11 +52,12 @@ router
 router
     .route("/withdraw")
     .post(
-        auth( USER_ROLES.ADMIN, USER_ROLES.USER ),
-        validateRequest( PaymentValidation.createWithdrawZodSchema ),
+        auth(USER_ROLES.ADMIN, USER_ROLES.USER),
+        validateRequest(PaymentValidation.createWithdrawZodSchema),
         PaymentController.createWithdrawSession
     )
 
+router.get("/get-dashboard-link", auth(USER_ROLES.ADMIN, USER_ROLES.USER), PaymentController.getDashboardLink)
 
 
 export const PaymentRouter = router;
