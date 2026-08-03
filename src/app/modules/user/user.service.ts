@@ -27,10 +27,10 @@ const createUserToDB = async (payload: Partial<register>): Promise<any> => {
   if (!payload) {
     throw new Error('payload is missing!')
   }
-  let isExists = await User.findOne({email: payload.email as string});
+  let isExists = await User.findOne({ email: payload.email as string });
 
-  if(isExists && isExists.verified){
-       throw new Error('User Already Exists!')
+  if (isExists && isExists.verified) {
+    throw new Error('User Already Exists!')
   }
 
   if (!isExists) {
@@ -85,7 +85,7 @@ const getUserProfileFromDB = async (
   user: JwtPayload
 ): Promise<Partial<IUser>> => {
   const { id } = user;
-  const isExistUser = await User.isValidUser(id);
+  const isExistUser = await User.findById(id);
   if (!isExistUser) {
     throw new ApiError(StatusCodes.BAD_REQUEST, "User doesn't exist!");
   };
