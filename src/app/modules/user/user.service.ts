@@ -81,9 +81,7 @@ const createUserToDB = async (payload: Partial<register>): Promise<any> => {
   };
 };
 
-const getUserProfileFromDB = async (
-  user: JwtPayload
-): Promise<Partial<IUser>> => {
+const getUserProfileFromDB = async (user: JwtPayload): Promise<Partial<IUser>> => {
   const { id } = user;
   const isExistUser = await User.findById(id);
   if (!isExistUser) {
@@ -93,10 +91,7 @@ const getUserProfileFromDB = async (
   return isExistUser;
 };
 
-const updateProfileToDB = async (
-  user: JwtPayload,
-  payload: Partial<IUser>
-) => {
+const updateProfileToDB = async (user: JwtPayload, payload: Partial<IUser>) => {
 
   try {
     const { id } = user;
