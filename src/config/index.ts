@@ -42,5 +42,9 @@ export default {
     secret_key: process.env.STRIPE_SECRET_KEY,
     public_key: process.env.STRIPE_PUBLIC_KEY,
     webhook_secret: process.env.STRIPE_WEBHOOK_SECRET,
+  },
+  paystack: {
+    secret_key: process.env.PAYSTACK_SECRET_KEY,
+    public_key: process.env.PAYSTACK_PUBLIC_KEY,
   }
 };

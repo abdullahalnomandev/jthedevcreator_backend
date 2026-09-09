@@ -1,31 +1,24 @@
 import { Request, Response, Router } from "express";
 import auth from "../../middlewares/auth";
 import { USER_ROLES } from "../../../enums/user";
-import { PaymentController } from "./payment.controller";
+import { PaymentController } from "./payment.paystack.controller";
 import validateRequest from "../../middlewares/validateRequest";
 import { PaymentValidation } from "./payment.validation";
-import { PyamentCancel } from "../../../shared/templates";
-
 
 const router = Router();
 
 router
-    .route("/connected-account")
+    .route("/resolve-bank")
+    .get(
+        auth(USER_ROLES.ADMIN, USER_ROLES.USER),
+        PaymentController.resolveBankAccount
+    )
+
+router
+    .route("/paystack-subaccount")
     .post(
         auth(USER_ROLES.ADMIN, USER_ROLES.USER),
-        PaymentController.createConnectionAccount
-    )
-
-router
-    .route("/success/:id")
-    .get(
-        PaymentController.successPageAccount
-    )
-
-router
-    .route("/refresh/:id")
-    .get(
-        PaymentController.refreshAccount
+        PaymentController.createPaystackSubaccount
     )
 
 router
@@ -36,17 +29,11 @@ router
         PaymentController.createCheckoutSession
     )
 
-
 router
-    .route("/deposit/success")
+    .route("/deposit/verify")
     .get(
+        auth(USER_ROLES.ADMIN, USER_ROLES.USER),
         PaymentController.successDeposit
-    )
-
-router
-    .route("/cancel")
-    .get(
-        (req: Request, res: Response) => res.send(PyamentCancel)
     )
 
 router
@@ -57,7 +44,38 @@ router
         PaymentController.createWithdrawSession
     )
 
-router.get("/get-dashboard-link", auth(USER_ROLES.ADMIN, USER_ROLES.USER), PaymentController.getDashboardLink)
+// router
+//     .route("/connected-account")
+//     .post(
+//         auth(USER_ROLES.ADMIN, USER_ROLES.USER),
+//         PaymentController.createConnectionAccount
+//     )
+
+// router
+//     .route("/success/:id")
+//     .get(
+//         PaymentController.successPageAccount
+//     )
+
+// router
+//     .route("/refresh/:id")
+//     .get(
+//         PaymentController.refreshAccount
+//     )
+
+// router
+//     .route("/deposit/success")
+//     .get(
+//         PaymentController.successDeposit
+//     )
+
+// router
+//     .route("/cancel")
+//     .get(
+//         (req: Request, res: Response) => res.send("Payment cancelled")
+//     )
+
+// router.get("/get-dashboard-link", auth(USER_ROLES.ADMIN, USER_ROLES.USER), PaymentController.getDashboardLink)
 
 
 export const PaymentRouter = router;
